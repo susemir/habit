@@ -9,69 +9,152 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- CSS -->
+    <link rel="stylesheet" href="mystyle.css">
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <!-- Google fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 
-    <!-- 구글폰트
-    <link href="..." rel="stylesheet"> -->
-    <!-- <style type="text/css"></style> -->
+    
+
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Poppins", sans-serif
+        }
+
+        body {
+            font-size: 16px;
+        }
+
+        .w3-half img {
+            margin-bottom: -6px;
+            margin-top: 16px;
+            opacity: 0.8;
+            cursor: pointer
+        }
+
+        .w3-half img:hover {
+            opacity: 1
+        }
+    </style>
 
     <script>
-        // A. '기록하기' 버튼을 눌렀을 때 실행시킬 내용
-        //     1. 기록하기 버튼을 누르면(이벤트 발생)
-        //     2. 서버에 내용을 보내서 저장(POST)
-        //     3. html 내용을 다 지운 다음에
-        //     4. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET) (이번 달 기록만)
-        //     5-1. 기록표의 습관 제목이 입력되고, 표의 아랫칸에 append 되어야 한다. (jqeury code?)
-        //     5-2. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다
+        // Script to open and close sidebar
+        function menu_open() {
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("myOverlay").style.display = "block";
+        }
+
+        function menu_close() {
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("myOverlay").style.display = "none";
+        }
+    </script>
+
+
+    <!-- // A. '기록하기' 버튼을 눌렀을 때 실행시킬 내용
+    // 1. 기록하기 버튼을 누르면(이벤트 발생)
+    // 2. 서버에 내용을 보내서 저장(POST)
+    // 3. html 내용을 다 지운 다음에
+    // 4. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET) (이번 달 기록만)
+    // 5-1. 기록표의 습관 제목이 입력되고, 표의 아랫칸에 append 되어야 한다. (jqeury code?)
+    // 5-2. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다
 
 
     // B. '1년 기록 보기' 버튼을 눌렀을 때 실행시킬 내용
-    //     1. 새로운 웹페이지를 열어서
-    //     2. 서버에 저장된 기록을 가져온다(GET) (1년치 기록 전체를)
-    //     3. 1년간의 월별 기록표를 세로로 쭉 보여준다 or 1년짜리 기록표(가로로 길쭉한)를 보여준다. (뭐로 할지 고민해보기)
+    // 1. 새로운 웹페이지를 열어서
+    // 2. 서버에 저장된 기록을 가져온다(GET) (1년치 기록 전체를)
+    // 3. 1년간의 월별 기록표를 세로로 쭉 보여준다 or 1년짜리 기록표(가로로 길쭉한)를 보여준다. (뭐로 할지 고민해보기)
 
     // C. 기록표의 '습관 제목'버튼을 눌렀을 때 실행시킬 내용 (그러면 습관 제목 부분은 버튼으로 append 해야겠다.)
-    //     1. A와 동일하게, 서버에 내용을 보내서 저장(POST). 이떄는 오늘 날짜를 자동으로 인식해서 서버에 보내준다.
-    //     2. html 내용을 다 지운 다음에
-    //     3. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET)
-    //     4. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다.
-
-
-
-    </script>
+    // 1. A와 동일하게, 서버에 내용을 보내서 저장(POST). 이떄는 오늘 날짜를 자동으로 인식해서 서버에 보내준다.
+    // 2. html 내용을 다 지운 다음에
+    // 3. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET)
+    // 4. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다. -->
 </head>
 
 <body>
-<!-- bootstrap으로 사이드바(지난 달의 기록을 볼 수 있도록), 습관 및 색상 입력창, 기록버튼, 몇년 몇월인지 표시, 기록표 레이아웃 넣기 -->
+    <!-- bootstrap으로 사이드바(지난 달의 기록을 볼 수 있도록), 습관 및 색상 입력창, 기록버튼, 몇년 몇월인지 표시, 기록표 레이아웃 넣기 -->
 
-<body class="c-app">
-<div class="c-sidebar">
     <!-- 1. 사이드바 (지난 달의 기록 확인 - 페이지 이동) -->
-</div>
-<div class="c-wrapper">
-    <header class="input-console"
-    ">
-    <!-- 2. 습관명 입력창 (드롭다운 버튼을 눌러 이미 입력된 습관 목록 중에서 선택할 수도 있음)
-    3. 색상 입력(컬러 팔레트에서 선택)
-    4. 날짜 기록(2020-04-15 형식이고 달력창을 열어 선택한다)
-    5. 기록하기 버튼 -->
+    <nav class="sidebar red collapse top large padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar">
+        <br>
+        <a href="javascript:void(0) " onclick="menu_close()" class="button hide-large display-topleft"
+            style="width:100%;font-size:22px">Close Menu</a>
+        <div class="container">
+            <h3 class="padding-64"><b>Habit<br>Tracker</b></h3>
+        </div>
+        <div class="bar-block">
+            <a href="#" onclick="menu_close()" class="bar-item button hover-white">Home</a>
+            <a href="#contact" onclick="menu_close()" class="bar-item button hover-white">습관 입력</a>
+        </div>
+    </nav>
+
+
+    <!-- Top menu on small screens -->
+    <header class="container top hide-large red xlarge padding">
+        <a href="javascript:void(0)" class="button red margin-right" onclick="menu_open()">☰</a>
+        <span>Habit Tracker</span>
     </header>
-    <div class="c-body">
-        <main class="c-main">
-            <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다
-            7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
-        </main>
-    </div>
-</div>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="overlay hide-large" onclick="menu_close()" style="cursor:pointer" title="close side menu"
+        id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="main" style="margin-left:400px;margin-right:400px">
+
+
+        <!-- 습관명 입력. 제출된 데이터를 받아서 서버에 저장한다-->
+        <!-- Header -->
+        <div class="container" style="margin-top:80px" id="header">
+            <h1 class="jumbo"><b>Start Recording your daily habits.</b></h1>
+        </div>
+        <!-- 습관을 입력하는 부분 -->
+        <div class="container" id="HabitInput" style="margin-top:75px">
+            <h1 class="xxxlarge text-red"><b>Your Habit</b></h1>
+            <p>Tracking your habits on a daily basis gives you a sense of everyday accomplishment. Meaning, you'll have
+                more motivation to keep them going the next day and so forth. 3. You'll learn which habits you find
+                difficult being consistent in, thus making it likelier that you'll make adjustments.</p>
+            <form action="/action_page.php" target="_blank">
+                <!--2. 습관명 입력 / 드롭다운 버튼으로 기존에 입력한 내용을 볼 수 있도록 -->
+                <div class="section">
+                    <label>어떤 습관을 기록하고 싶으세요?</label>
+                    <input class="input border" type="text" name="HabitName" required>
+                </div>
+                <!-- 3. 색상 선택 -->
+                <div class="section">
+                    <label>어떤 색으로 기록하고 싶으세요?</label>
+                    <input class="input border" type="color" name="HabitColor" id="colorselector" required>
+                </div>
+                <!-- 4. 날짜 선택 / 기본적으로 오늘 날짜를 보여주고 달력에서 다른 날짜를 선택가능하도록 -->
+                <div class="section">
+                    <label>어느 날짜에 기록하실 건가요?</label>
+                    <input class="input border" type="text" name="HabitDate" required>
+                </div>
+                <!-- 5. 기록하기 버튼 -->
+                <button type="submit" class="button block padding-large red margin-bottom">습관 기록하기
+                </button>
+            </form>
+        </div>
+
+        <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
+        <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
+        <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
+
+        <!-- Footer -->
+        <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
+            <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
+                    class="hover-opacity">sujinhan.me@gmail.com</a></p>
+        </div>
+
 </body>
 
 </html>
