@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- CSS -->
-    <link rel="stylesheet" href="mystyle.css">
+    <link rel="stylesheet" href="C:\Users\hdh30\Desktop\habit\static\mystyle.css">
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <!-- Color Picker -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
-    <link rel="stylesheet" href="jquery.simplecolorpicker.css">
+    <link rel="stylesheet" href="C:\Users\hdh30\Desktop\habit\static\jquery.simplecolorpicker.css">
     <script src="jquery.simplecolorpicker.js"></script>
 
 
@@ -57,12 +57,32 @@
                 $('select[name="habit_color"]').simplecolorpicker();
                 $('select[name="colorpicker-picker-longlist"]').simplecolorpicker({ picker: true, theme: 'glyphicons' });
             });
-
             // By default, activate simplecolorpicker plugin on HTML selects
             $('#init').trigger('click');
         });
     </script>
 
+    <script>
+        function generateTable() {
+            var mybody = document.getElementsByTagName("body")[0];
+            mytable = document.createElement("table");
+            mytablebody = document.createElement("tbody");
+
+            for (var row = 0; row < 4; row++) {
+                mycurrent_row = document.createElement("tr", id = row);
+                for (var col = 0; col < 32; col++) {
+                    mycurrent_cell = document.createElement("td", id = col);
+                    currenttext = document.createTextNode("cell");
+                    mycurrent_cell.appendChild(currenttext);
+                    mycurrent_row.appendChild(mycurrent_cell);
+                }
+                mytablebody.appendChild(mycurrent_row);
+            }
+            mytable.appendChild(mytablebody);
+            mybody.appendChild(mytable);
+            mytable.setAttribute("border", "1");
+        }
+    </script>
 
     <!-- // A. '기록하기' 버튼을 눌렀을 때 실행시킬 내용
     // 1. 기록하기 버튼을 누르면(이벤트 발생)
@@ -85,7 +105,7 @@
     // 4. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다. -->
 </head>
 
-<body>
+<body onload="generateTable()">
     <!-- bootstrap으로 사이드바(지난 달의 기록을 볼 수 있도록), 습관 및 색상 입력창, 기록버튼, 몇년 몇월인지 표시, 기록표 레이아웃 넣기 -->
     <!-- Top menu -->
     <header class="top red xlarge padding" style="width:100%">
@@ -164,20 +184,18 @@
                     </div>
                     <!-- 5. 기록하기 버튼 -->
                     <button type="submit" class="button block padding-large margin-bottom"
-                        style="color:#fff;background-color:#f44336">습관 기록하기
-                    </button>
+                        style="color:#fff;background-color:#f44336">습관 기록하기</button>
             </form>
         </div>
-
-        <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
-        <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
-        <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
-
-        <!-- Footer -->
-        <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
-            <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
-                    class="hover-opacity">sujinhan.me@gmail.com</a></p>
-        </div>
+    </div>
+    <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
+    <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
+    <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
+    <!-- Footer -->
+    <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
+        <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
+                class="hover-opacity">sujinhan.me@gmail.com</a></p>
+    </div>
 
 </body>
 
