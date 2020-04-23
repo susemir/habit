@@ -5,24 +5,20 @@
     <title>Habit Tracker</title>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Habit Tracker" content="width=device-width, initial-scale=1.0" content="습관을 기록하는 사이트입니다.">
 
-    <!-- Bootstrap CSS -->
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- CSS -->
-    <link rel="stylesheet" href="C:\Users\hdh30\Desktop\habit\static\mystyle.css">
-    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Google fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <!-- Color Picker -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
-    <link rel="stylesheet" href="C:\Users\hdh30\Desktop\habit\static\jquery.simplecolorpicker.css">
-    <script src="jquery.simplecolorpicker.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mystyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.simplecolorpicker.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+
+    <script src="{{ url_for('static', filename='js/jquery.simplecolorpicker.js') }}"></script>
 
     <style>
         body,
@@ -60,9 +56,8 @@
             // By default, activate simplecolorpicker plugin on HTML selects
             $('#init').trigger('click');
         });
-    </script>
 
-    <script>
+        //테이블 기록표를 만들자!
         function generateTable() {
             var mybody = document.getElementsByTagName("body")[0];
             mytable = document.createElement("table");
@@ -82,16 +77,40 @@
             mybody.appendChild(mytable);
             mytable.setAttribute("border", "1");
         }
-    </script>
+        // A. '기록하기' 버튼을 눌렀을 때 실행시킬 내용
+        // 1. 기록하기 버튼을 누르면(이벤트 발생) onclick make_record()
 
-    <!-- // A. '기록하기' 버튼을 눌렀을 때 실행시킬 내용
-    // 1. 기록하기 버튼을 누르면(이벤트 발생)
-    // 2. 서버에 내용을 보내서 저장(POST)
+        // 2. 서버에 내용을 보내서 저장(POST)
+        // 받은 데이터를 mongoDB에 기록하자!
+        function make_record() {
+            // 읽기
+            let name = $('#posting_name').val();
+            let color = $('#init').val();
+            let date = $('#posting_date').val();
+
+            // 우리가 크롬 콘솔창에서 썼던 그 코드!
+            $.ajax({
+                type: "POST", // POST 방식으로 요청하겠다.
+                url: "/record", // /memo라는 url에 요청하겠다.
+                data: { name_give: name, color_give: color, date_give: date }, // 데이터를 주는 방법
+                success: function (response) { // 성공하면
+                    if (response['result'] == 'success') {
+                        alert('POST 성공!');
+                        window.location.reload();
+                    } else {
+                        alert('서버 오류!')
+                    }
+                }
+            })
+        }
+
+
+
+
     // 3. html 내용을 다 지운 다음에
     // 4. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET) (이번 달 기록만)
     // 5-1. 기록표의 습관 제목이 입력되고, 표의 아랫칸에 append 되어야 한다. (jqeury code?)
     // 5-2. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다
-
 
     // B. '1년 기록 보기' 버튼을 눌렀을 때 실행시킬 내용
     // 1. 새로운 웹페이지를 열어서
@@ -102,7 +121,8 @@
     // 1. A와 동일하게, 서버에 내용을 보내서 저장(POST). 이떄는 오늘 날짜를 자동으로 인식해서 서버에 보내준다.
     // 2. html 내용을 다 지운 다음에
     // 3. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET)
-    // 4. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다. -->
+    // 4. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다.
+    </script>
 </head>
 
 <body onload="generateTable()">
@@ -133,7 +153,7 @@
                 <div class="section">
                     <label>어떤 습관을 기록하고 싶으세요?</label>
                     <div class="input-group">
-                        <input class="form-control border" type="text" required>
+                        <input class="form-control border" type="text" id="posting_name" required>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                                 style="color:#fff; background-color:#f44336" data-toggle="dropdown"
@@ -180,11 +200,12 @@
                     <!-- 4. 날짜 선택 / 기본적으로 오늘 날짜를 보여주고 달력에서 다른 날짜를 선택가능하도록 -->
                     <div class="section">
                         <label>어느 날짜에 기록하실 건가요?</label>
-                        <input class="input border" type="date" name="habit_date" required>
+                        <input class="input border" type="date" name="habit_date" id="posting_date" required>
                     </div>
                     <!-- 5. 기록하기 버튼 -->
-                    <button type="submit" class="button block padding-large margin-bottom"
-                        style="color:#fff;background-color:#f44336">습관 기록하기</button>
+                    <button type="button" class="button block padding-large margin-bottom"
+                        style="color:#fff;background-color:#f44336" id="record_button" onclick="make_record()">습관
+                        기록하기</button>
             </form>
         </div>
     </div>
