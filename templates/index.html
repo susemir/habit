@@ -58,28 +58,9 @@
         });
 
         //테이블 기록표를 만들자!
-        function generateTable() {
-            var mybody = document.getElementsByTagName("body")[0];
-            mytable = document.createElement("table");
-            mytablebody = document.createElement("tbody");
 
-            for (var row = 0; row < 4; row++) {
-                mycurrent_row = document.createElement("tr", id = row);
-                for (var col = 0; col < 32; col++) {
-                    mycurrent_cell = document.createElement("td", id = col);
-                    currenttext = document.createTextNode("cell");
-                    mycurrent_cell.appendChild(currenttext);
-                    mycurrent_row.appendChild(mycurrent_cell);
-                }
-                mytablebody.appendChild(mycurrent_row);
-            }
-            mytable.appendChild(mytablebody);
-            mybody.appendChild(mytable);
-            mytable.setAttribute("border", "1");
-        }
         // A. '기록하기' 버튼을 눌렀을 때 실행시킬 내용
         // 1. 기록하기 버튼을 누르면(이벤트 발생) onclick make_record()
-
         // 2. 서버에 내용을 보내서 저장(POST)
         // 받은 데이터를 mongoDB에 기록하자!
         function make_record() {
@@ -88,7 +69,6 @@
             let color = $('#init').val();
             let date = $('#posting_date').val();
 
-            // 우리가 크롬 콘솔창에서 썼던 그 코드!
             $.ajax({
                 type: "POST", // POST 방식으로 요청하겠다.
                 url: "/record", // /memo라는 url에 요청하겠다.
@@ -98,9 +78,35 @@
                         alert('POST 성공!');
                         window.location.reload();
                     } else {
-                        alert('서버 오류!')
+                        alert('POST 실패!');
                     }
                 }
+            })
+        }
+
+        function get_record() {
+            $('#table-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/record",
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('GET 성공!');
+                    } else {
+                        alert('GET 실패');
+                    }
+                }
+                // let habits = response['habits']
+
+                // for (let i = 0, i < habits.length; i++) {
+                //     let habit = habits[i];
+                //     let name = habit['name'];
+                //     let color = habit['color'];
+                //     let date = habit['date'].split[-2];
+                //     print(date)
+                // }
+
             })
         }
 
@@ -111,6 +117,8 @@
     // 4. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET) (이번 달 기록만)
     // 5-1. 기록표의 습관 제목이 입력되고, 표의 아랫칸에 append 되어야 한다. (jqeury code?)
     // 5-2. 해당하는 날짜의 칸이 설정한 색으로 색칠되어야 한다
+
+// -------------여기까지 만드는 게 1차 목표------------
 
     // B. '1년 기록 보기' 버튼을 눌렀을 때 실행시킬 내용
     // 1. 새로운 웹페이지를 열어서
@@ -125,7 +133,7 @@
     </script>
 </head>
 
-<body onload="generateTable()">
+<body>
     <!-- bootstrap으로 사이드바(지난 달의 기록을 볼 수 있도록), 습관 및 색상 입력창, 기록버튼, 몇년 몇월인지 표시, 기록표 레이아웃 넣기 -->
     <!-- Top menu -->
     <header class="top red xlarge padding" style="width:100%">
@@ -200,23 +208,30 @@
                     <!-- 4. 날짜 선택 / 기본적으로 오늘 날짜를 보여주고 달력에서 다른 날짜를 선택가능하도록 -->
                     <div class="section">
                         <label>어느 날짜에 기록하실 건가요?</label>
-                        <input class="input border" type="date" name="habit_date" id="posting_date" required>
+                        <input class="input border" type="text" name="habit_date" id="posting_date"
+                            placeholder="2020-01-28 형식으로 입력해주세요" required>
                     </div>
+                    <!-- <script>
+                        document.getElementById('posting_date').value = new Date().toISOString().substring(0, 10);;
+                      </script> -->
                     <!-- 5. 기록하기 버튼 -->
                     <button type="button" class="button block padding-large margin-bottom"
                         style="color:#fff;background-color:#f44336" id="record_button" onclick="make_record()">습관
                         기록하기</button>
             </form>
+            <div class="container" id="habit_output" style="margin-top:30px">
+                <div input id="table-box"></div>
+                <button type="button" onclick="get_record()"></div>
+            </div>
         </div>
-    </div>
-    <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
-    <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
-    <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
-    <!-- Footer -->
-    <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
-        <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
-                class="hover-opacity">sujinhan.me@gmail.com</a></p>
-    </div>
+        <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
+        <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
+        <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
+        <!-- Footer -->
+        <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
+            <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
+                    class="hover-opacity">sujinhan.me@gmail.com</a></p>
+        </div>
 
 </body>
 
