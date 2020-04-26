@@ -93,18 +93,26 @@
                 data: {},
                 success: function (response) {
                     var habits = response['habit_list'];
-                    console.log(habits);
+                    console.log(habits); //이걸 콘솔창에서 실행시키면 undefined 뜬다
 
-                    for (let i = 0; i < habits && habits.length; i++) {
-                        let habit = habits[i];
-                        let name = habit['name'];
-                        let color = habit['color'];
-                        let date = habit['date'];
+                    //1. 무비스타 방식
+                    // for (let i = 0; i < habits && habits.length; i++) {
+                    //     let habit = habits[i];
+                    //     let name = habit['name'];
+                    //     let color = habit['color'];
+                    //     let date = habit['date'];
 
-                        let temp_html = '<th>' + name + '</th>\
-                                    <tr>' + color + '</tr>\
-                                    <tr>' + date + '</tr>'
-                        $('#table-box').append(temp_html);
+                    //     let temp_html = '<tr>' + name + '</tr>\
+                    //                 <th>' + color + '</th>\
+                    //                 <th>' + date + '</th>'
+                    //     $('#table-box').append(temp_html);
+                    // }
+
+                    //2. 구글링
+                    for (var i = 0; i < habits && habits.length; i++) {
+                        var row = $('<tr><td>' + habits[i].name + '</td><td>'
+                            + habits[i].color + '</td><td>' + habits[i].date + '</td></tr>');
+                        $('#table-box').append(row);
                     }
                 }
             })
@@ -206,36 +214,31 @@
                         <input class="input border" type="text" name="habit_date" id="posting_date"
                             placeholder="2020-01-28 형식으로 입력해주세요" required>
                     </div>
-                    <button type="button" class="button block padding-large margin-bottom"
-                        style="color:#fff;background-color:#f44336" id="record_button" onclick="make_record()">습관
-                        기록하기</button>
-                    <p></p>
-                    <button type="button" class="button block padding-large margin-bottom"
-                        style="color:#fff;background-color:#f44336" id="record_button" onclick="get_record()">기록된 습관
-                        보기<button>
             </form>
-        </div>
-        <div class="table" id="table-box">
-            <div class="card-content">
-                <div class="table">
+            <button type="button" class="button block padding-large margin-bottom"
+                style="color:#fff;background-color:#f44336" id="record_button" onclick="make_record()">습관
+                기록하기</button>
+            <p></p>
+            <button type="button" class="button block padding-large margin-bottom"
+                style="color:#fff;background-color:#f44336" id="record_button" onclick="get_record()">기록된 습관
+                보기</button>
+            <p></p>
+            <table id="table-box">
+                <tr>
                     <th>여기에 habit name</th>
-                    <tr>여기에 habit color</tr>
-                    <tr>여기에 habit date</tr>
-                </div>
+                    <th>여기에 habit color</th>
+                    <th>여기에 habit date</th>
+                </tr>
+            </table>
+
+            <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
+            <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
+            <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
+            <!-- Footer -->
+            <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
+                <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
+                        class="hover-opacity">sujinhan.me@gmail.com</a></p>
             </div>
-        </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
-    <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
-    <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
-    <!-- Footer -->
-    <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
-        <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
-                class="hover-opacity">sujinhan.me@gmail.com</a></p>
-    </div>
 
 </body>
 
