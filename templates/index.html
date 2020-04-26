@@ -102,8 +102,7 @@
                         for (var j = 1; j < 32; j++) {
                             var make_thHTML = '<th>' + j + '</th>';
                             $('#table-box-head').append(make_thHTML); //숫자칸 생성
-                            //여기까지 작동!
-
+                            
                             for (var i = 0; i < habits.length; i++) {
 
                                 var habit = habits[i];
@@ -111,21 +110,23 @@
                                 var color = habit['color'];
                                 var date = habit['date']; //2020-04-20 형식
 
-                                var make_tnHTML = '<td>' + name + '</td>';
+                                var make_tnHTML = '';
                                 var make_tdHTML = '';
                                 var day = date.split("-")[2]; //날짜 중에서 '일'만 가져옴 console.log(day);
                                 // console.log(day);
 
-                                if (day != j) { //date의 날짜 마지막 두글자 split (ex.21) != j
-                                    make_tnHTML = '';
-                                    make_tdHTML = '<td></td>';
+                                if (day == j) { //date의 날짜 마지막 두글자 split (ex.21) != j
+                                    make_tnHTML = '<tr><td>' + name + '</td>';
+                                    make_tdHTML = '<td style="background-color:' + color + '">';
+
                                 }
-                                else if (day == j) { //date의 날짜 마지막 두글자 split (ex.21) == j
-                                    make_tnHTML = '<tr></tr><td>' + name + '</td>';
-                                    make_tdHTML = '<td style="background-color:' + color + '"></td>';
+                                else if (day != j) { //date의 날짜 마지막 두글자 split (ex.21) == j
+                                    make_tnHTML = '';
+                                    make_tdHTML = '<td></td></tr>';
                                 }
                                 $('#table-box-body').append(make_tnHTML);
                                 $('#table-box-body').append(make_tdHTML);
+                       
                             }
                         }
                     }
@@ -243,9 +244,8 @@
                 보기</button>
             <p></p>
             <div class="section" id="habit_output" style="margin-top:50px">
-                <table class="mytable" id="table-box-head" border="1" style="margin:auto">
-                    <table id="table-box-body" border="1" style="margin:auto">
-                        <tr></tr>
+                <table class="container" id="table-box-head" border="1" style="margin:auto">
+                    <table id="table-box-body" border="1">
             </div>
             </table>
         </div>
