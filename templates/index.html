@@ -85,38 +85,50 @@
         }
 
         function get_record() {
-            $('#table-box').empty()
-            //empty까지만 실행된다???
             $.ajax({
                 type: "GET",
                 url: "/record",
                 data: {},
                 success: function (response) {
-                    var habits = response['habit_list'];
-                    console.log(habits); //이걸 콘솔창에서 실행시키면 undefined 뜬다
-
-                    //1. 무비스타 방식
-                    // for (let i = 0; i < habits && habits.length; i++) {
-                    //     let habit = habits[i];
-                    //     let name = habit['name'];
-                    //     let color = habit['color'];
-                    //     let date = habit['date'];
-
-                    //     let temp_html = '<tr>' + name + '</tr>\
-                    //                 <th>' + color + '</th>\
-                    //                 <th>' + date + '</th>'
-                    //     $('#table-box').append(temp_html);
-                    // }
-
-                    //2. 구글링
-                    for (var i = 0; i < habits && habits.length; i++) {
-                        var row = $('<tr><td>' + habits[i].name + '</td><td>'
-                            + habits[i].color + '</td><td>' + habits[i].date + '</td></tr>');
-                        $('#table-box').append(row);
+                    if (response['result'] == 'success') {
+                        alert('GET 성공!');
+                        $('#table-box').empty();
+                        let habits = response['habit_list'];
+                        console.log(habits);
+                        for (var i = 0; i < habits.length; i++) {
+                            let habit = habits[i];
+                            let name = habit['name'];
+                            let color = habit['color'];
+                            let date = habit['date'];
+                            var row = $('<tr><td>' + name + '</td><td>'
+                                + color + '</td><td>' + date + '</td></tr>');
+                            $('#table-box').append(row);
+                        }
+                    }
+                    else {
+                        alert('GET 실패!');
                     }
                 }
             })
         }
+
+
+            //1. 무비스타 방식
+            // for (let i = 0; i < habits && habits.length; i++) {
+            //     let habit = habits[i];
+            //     let name = habit['name'];
+            //     let color = habit['color'];
+            //     let date = habit['date'];
+
+            //     let temp_html = '<tr>' + name + '</tr>\
+            //                 <th>' + color + '</th>\
+            //                 <th>' + date + '</th>'
+            //     $('#table-box').append(temp_html);
+            // }
+
+            //2. 다른 방법으로?
+
+
     // 3. html 내용을 다 지운 다음에
     // 4. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET) (이번 달 기록만)
     // 5-1. 기록표의 습관 제목이 입력되고, 표의 아랫칸에 append 되어야 한다. (jqeury code?)
