@@ -86,33 +86,29 @@
 
         function get_record() {
             $('#table-box').empty()
+            //empty까지만 실행된다???
             $.ajax({
                 type: "GET",
                 url: "/record",
                 data: {},
                 success: function (response) {
-                    if (response['result'] == 'success') {
-                        alert('GET 성공!');
-                    } else {
-                        alert('GET 실패');
+                    var habits = response['habit_list'];
+                    console.log(habits);
+
+                    for (let i = 0; i < habits && habits.length; i++) {
+                        let habit = habits[i];
+                        let name = habit['name'];
+                        let color = habit['color'];
+                        let date = habit['date'];
+
+                        let temp_html = '<th>' + name + '</th>\
+                                    <tr>' + color + '</tr>\
+                                    <tr>' + date + '</tr>'
+                        $('#table-box').append(temp_html);
                     }
                 }
-                // let habits = response['habits']
-
-                // for (let i = 0, i < habits.length; i++) {
-                //     let habit = habits[i];
-                //     let name = habit['name'];
-                //     let color = habit['color'];
-                //     let date = habit['date'].split[-2];
-                //     print(date)
-                // }
-
             })
         }
-
-
-
-
     // 3. html 내용을 다 지운 다음에
     // 4. 서버에 저장된 내용을 가져와서 기록표에 표시해준다(GET) (이번 달 기록만)
     // 5-1. 기록표의 습관 제목이 입력되고, 표의 아랫칸에 append 되어야 한다. (jqeury code?)
@@ -205,33 +201,41 @@
                         </select>
 
                     </div>
-                    <!-- 4. 날짜 선택 / 기본적으로 오늘 날짜를 보여주고 달력에서 다른 날짜를 선택가능하도록 -->
                     <div class="section">
                         <label>어느 날짜에 기록하실 건가요?</label>
                         <input class="input border" type="text" name="habit_date" id="posting_date"
                             placeholder="2020-01-28 형식으로 입력해주세요" required>
                     </div>
-                    <!-- <script>
-                        document.getElementById('posting_date').value = new Date().toISOString().substring(0, 10);;
-                      </script> -->
-                    <!-- 5. 기록하기 버튼 -->
                     <button type="button" class="button block padding-large margin-bottom"
                         style="color:#fff;background-color:#f44336" id="record_button" onclick="make_record()">습관
                         기록하기</button>
+                    <p></p>
+                    <button type="button" class="button block padding-large margin-bottom"
+                        style="color:#fff;background-color:#f44336" id="record_button" onclick="get_record()">기록된 습관
+                        보기<button>
             </form>
-            <div class="container" id="habit_output" style="margin-top:30px">
-                <div input id="table-box"></div>
-                <button type="button" onclick="get_record()"></div>
+        </div>
+        <div class="table" id="table-box">
+            <div class="card-content">
+                <div class="table">
+                    <th>여기에 habit name</th>
+                    <tr>여기에 habit color</tr>
+                    <tr>여기에 habit date</tr>
+                </div>
             </div>
         </div>
-        <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
-        <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
-        <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
-        <!-- Footer -->
-        <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
-            <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
-                    class="hover-opacity">sujinhan.me@gmail.com</a></p>
-        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- 기록된 내용을 서버에서 가져와 보여준다. -->
+    <!-- 6. "April 2020" 의 형식으로 해당하는 연월 표시해준다 -->
+    <!-- 7. 기록표. row/column 을 지정하는 형태의 표. 제일 왼쪽 칸에 습관명. 제일 위쪽 칸에는 1~31까지의 숫자 표시. -->
+    <!-- Footer -->
+    <div class="light-gray container padding-24" style="margin-top:75px;padding-right:58px">
+        <p class="right">Created by <a href="sujinhan.me: abc@gmail.com? subject=subject text" target="_blank"
+                class="hover-opacity">sujinhan.me@gmail.com</a></p>
+    </div>
 
 </body>
 
